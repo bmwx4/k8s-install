@@ -1,11 +1,4 @@
----
-title: "部署 kubernetes 集群"
-date: 2019-03-16T23:49:42+08:00
-draft: false
----
-### K8S 架构
-![avatar](../static/k8s.png)
-
+# kubernetes 1.12 集群部署
 
 ### 安装步骤
 
