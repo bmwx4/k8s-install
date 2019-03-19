@@ -84,6 +84,9 @@ cat > ca-csr.json <<EOF
   ]
 }
 EOF
+# cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+# ls ca*
+ca-config.json  ca.csr  ca-csr.json  ca-key.pem  ca.pem
 ````
 ***PS:***
 ```
