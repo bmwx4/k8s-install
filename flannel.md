@@ -15,7 +15,8 @@ flannel 将分配的 Pod 网段信息写入 /run/flannel/docker 文件，docker 
 ```
 # wget https://github.com/coreos/flannel/releases/download/v0.11.0/flannel-v0.11.0-linux-amd64.tar.gz
 # tar xvf flannel-v0.11.0-linux-amd64.tar.gz
-# cp flannel/flanneld /opt/k8s/bin/
+# cp flanneld /opt/k8s/bin/
+# cp mk-docker-opts.sh  /opt/k8s/bin/
 ```
 
 #### 创建 flannel 证书和私钥
