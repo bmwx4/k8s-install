@@ -75,7 +75,7 @@ kubectl config set-context system:kube-controller-manager \
   --kubeconfig=kube-controller-manager.kubeconfig
 
 kubectl config use-context system:kube-controller-manager --kubeconfig=kube-controller-manager.kubeconfig
-cp kube-controller-manager.kubeconfig /etc/kubernetes/
+cp kube-controller-manager.kubeconfig /etc/kubernetes/ && chown -R k8s /etc/kubernetes/kube-controller-manager.kubeconfig
 ```
 
 #### 创建和分发 kube-controller-manager systemd unit 文件
@@ -89,7 +89,7 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 [Service]
 ExecStart=/opt/k8s/bin/kube-controller-manager \\
   --port=10252 \\
-  --secure-port==0 \\
+  --secure-port=0 \\
   --bind-address=127.0.0.1 \\
   --kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \\
   --service-cluster-ip-range=${SERVICE_CIDR} \\

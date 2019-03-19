@@ -46,9 +46,6 @@ hosts 字段指定授权使用该证书的 IP 或域名列表，这里列出了 
 域名最后字符不能是 . (如不能为 kubernetes.default.svc.cluster.local.)，否则解析时失败，提示： x509: cannot parse dnsName "kubernetes.default.svc.cluster.local."；
 如果使用非 cluster.local 域名，如 opsnull.com，则需要修改域名列表中的最后两个域名为：kubernetes.default.svc.opsnull、kubernetes.default.svc.opsnull.com
 kubernetes 服务 IP 是 apiserver 自动创建的，一般是 --service-cluster-ip-range 参数指定的网段的第一个IP，后续可以通过如下命令获取：
-  $ kubectl get svc kubernetes
-  NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-  kubernetes   10.254.0.1   <none>        443/TCP   1d
 ```
 
 ***生成证书和私钥：***  
@@ -150,6 +147,8 @@ cp kube-apiserver-${NODE_IP}.service /etc/systemd/system/kube-apiserver.service
 ***PS:***
 ```
 必须先创建日志目录；
+mkdir /var/log/kubernetes && touch /var/log/kube-apiserver-audit.log
+chown -R k8s /var/log/kubernetes /var/log/kube-apiserver-audit.log
 文件重命名为 kube-apiserver.service;
 ```
 -----
@@ -170,6 +169,10 @@ ETCDCTL_API=3 etcdctl \
 ----
 #### 检查集群信息
 ```
+kubectl get svc kubernetes
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.254.0.1   <none>        443/TCP   4m44s
+
 [root@master01 ~]# kubectl cluster-info
 Kubernetes master is running at https://192.168.10.232:6443
 

@@ -6,7 +6,7 @@ draft: false
 
 etcd 是基于 Raft 的分布式 key-value 存储系统，由 CoreOS 开发，常用于服务发现、共享配置以及并发控制（如 leader 选举、分布式锁等）。kubernetes 使用 etcd 存储所有运行数据。
 
-本文档介绍部署一个三节点高可用 etcd 集群的步骤：  
+本文档介绍部署一个单实例 etcd 集群的步骤：  
 下载和分发 etcd 二进制文件；
 创建 etcd 集群各节点的 x509 证书，用于加密客户端(如 etcdctl) 与 etcd 集群、etcd 集群之间的数据流；  
 创建 etcd 的 systemd unit 文件，配置服务参数；  
@@ -64,17 +64,19 @@ cfssl gencert -ca=/etc/kubernetes/cert/ca.pem \
     -config=/etc/kubernetes/cert/ca-config.json \
     -profile=kubernetes etcd-csr.json | cfssljson -bare etcd
 ls etcd*
+etcd.csr  etcd-csr.json  etcd-key.pem  etcd.pem
 ```
 分发生成的证书和私钥到各 etcd 节点：
 ```
-如果使用etcd集群，这个动作需要在每个节点都运行
+如果使用etcd集群，这个动作需要在每个节点都运行，这里只是作为演示，使用单实例的方式进行安装
+# mkdir -p /etc/etcd/cert/
 # cp etcd*.pem /etc/etcd/cert/
 # chown -R k8s /etc/etcd/cert/
 ```
 ----
 #### 创建 etcd 的 systemd unit 模板文件
 ```
-export ETCD_NODES="kube-node1=https://192.168.10.232:2380"
+export ETCD_NODES="master01=https://192.168.10.232:2380"
 
 cat > etcd.service.template <<EOF
 [Unit]

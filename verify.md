@@ -30,7 +30,7 @@ spec:
   - name: http
     port: 80
     targetPort: 80
----
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -47,7 +47,7 @@ spec:
       containers:
       - name: my-nginx
         image: nginx:latest
-        imagePullPolicy :IfNotPresent
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
 EOF
