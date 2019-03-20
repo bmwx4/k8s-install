@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](readme.md)
+* [Introduction](README.md)
 1. [00.组件版本和配置策略](version.md)
 1. [01.系统初始化和全局变量](os-init.md)
 1. [02.创建CA证书和秘钥](ca.md)
@@ -11,7 +11,7 @@
     1. ~~[06-1.ha]~~
     1. [06-2.api-server](kube-apiserver.md)
     1. [06-3.controller-manager集群](kube-controller-manager.md)
-    1. [06-4.scheduler集群](kube-scheduler集群.md)
+    1. [06-4.scheduler集群](kube-scheduler.md)
 1. [07.部署worker节点]()
     1. [07-1.docker](docker.md)
     1. [07-2.kubelet](kubelet.md)

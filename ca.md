@@ -115,6 +115,7 @@ k8s/kube-proxy
 k8s/kube-apiserver
 k8s/kube-controller-manager
 k8s/kube-scheduler
+k8s/kubeadm
 # cp k8s/* /opt/k8s/bin/
 ```
 
