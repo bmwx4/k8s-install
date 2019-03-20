@@ -1,0 +1,17 @@
+{
+"plugins": [
+            "search",
+            "-sharing",
+            "theme-default",
+            "lunr",
+            "fontsettings",
+            "livereload",
+            "highlight"
+],
+
+
+    "styles": {
+        "website": "styles/website.css"
+    }
+
+}

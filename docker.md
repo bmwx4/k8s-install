@@ -78,3 +78,24 @@ sysctl -p /etc/sysctl.d/kubernetes.conf
     inet 172.30.14.1/24 brd 172.30.14.255 scope global docker0
        valid_lft forever preferred_lft forever
 ```
+
+----
+#### 使用阿里mirrors 先pull下本文档所需image 加快部署速度
+```
+cat > /etc/docker/daemon.json << EOF
+{
+"graph":"/var/lib/docker",
+"registry-mirrors": ["https://xx.mirror.aliyuncs.com"],
+"live-restore": true
+}
+EOF
+
+systemctl daemon-reload
+systemctl restart docker
+
+docker pull registry.access.redhat.com/rhel7/pod-infrastructure
+docer  pull httpd
+docker pull nginx
+docekr pull busybox
+
+```
