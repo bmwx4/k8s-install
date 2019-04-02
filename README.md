@@ -18,3 +18,9 @@
     1. [07-2.kubelet](kubelet.md)				
     1. [07-3.kube-proxy](kube-proxy.md)			
 1. [08.验证集群功能](verify.md)
+1. [09.部署集群插件](deploy-plugins.md)
+    1. [09-1.coredns](coredns.md)
+    1. [09-2.dashboard](dashboard.md)
+    1. [09-3.heapster](heapster.md)
+
+1. [A.浏览器访问kube-apiserver安全端口](kube-apiserver-sec-port.md)

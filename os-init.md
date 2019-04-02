@@ -51,6 +51,9 @@ os version: centos 7
 ````
 # sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ````
+***PS:***
+>不禁用swap的话，在启动kubelet 或者 docker 都会有问题；
+
 -----
 #### 关闭 SELinux，否则后续 K8S 挂载目录时可能报错 Permission denied：
 ```
@@ -71,6 +74,9 @@ linux 系统开启了 dnsmasq 后(如 GUI 环境)，将系统 DNS Server 设置�
 # modprobe br_netfilter
 # modprobe ip_vs
 ```
+***PS:***
+> flannel 网络方案会用到
+
 -----
 #### 设置系统参数
 ```
@@ -93,9 +99,11 @@ EOF
 # mount -t cgroup -o cpu,cpuacct none /sys/fs/cgroup/cpu,cpuacct
 ```
 **PS:**  
+> tcp_tw_recycle 和 Kubernetes 的 NAT 冲突，必须关闭 ，否则会导致服务不通；  
+> [被抛弃的tcp_recycles](https://juejin.im/post/5c0642e65188251a82662912)  
+> [一个NAT问题引起的思考](http://perthcharles.github.io/2015/08/27/timestamp-NAT/)  
+> 关闭不使用的 IPV6 协议栈，防止触发 docker BUG；
 
-- cp_tw_recycle 和 Kubernetes 的 NAT 冲突，必须关闭 ，否则会导致服务不通；  
-- 关闭不使用的 IPV6 协议栈，防止触发 docker BUG；
 ------
 #### 设置系统时区
 ```
@@ -113,6 +121,18 @@ EOF
 # systemctl restart crond
 ```
 -----
+#### 添加 k8s 账户
+```bash
+useradd -m k8s
+sh -c 'echo 123456 | passwd k8s --stdin' # 为 k8s 账户设置密码
+```
+因为我们k8s组件etcd和docker组件是用k8s用户启动的，但是在生产环境中，为了提高安全，可是使用如下命令设置用户没有登录shell的能力；
+```bash
+# chsh k8s -s /sbin/nologin
+```
+
+-----
+
 #### 创建工作目录
 ```
 # mkdir -p /opt/k8s/bin
@@ -126,13 +146,12 @@ master only:
 # chown -R k8s /etc/etcd/cert
 # mkdir -p /var/lib/etcd && chown -R k8s /etc/etcd/cert
 ```
+***PS:***
+> 在下一步启动组件时，很可能会因为权限不对，导致服务启动失败，要注意给相关目录设置属主为 k8s
+
 -----
 #### 将可执行文件路径 /opt/k8s/bin 添加到 PATH 变量中
 ```
 # sh -c "echo 'export PATH=/opt/k8s/bin:$PATH' >> ~/.bashrc"
 # source ~/.bashrc
 ```
------
-#### 添加 k8s 账户
-useradd -m k8s
-sh -c 'echo 123456 | passwd k8s --stdin' # 为 k8s 账户设置密码
