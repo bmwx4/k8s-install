@@ -17,6 +17,18 @@ os version: centos 7
 | node01  | 192.168.10.242  | kubelet |
 | node02  | 192.168.10.243  | kubelet |
 
+修改三个节点的主机名:
+```bash
+[root@master01 ~]# hostnamectl --static set-hostname master01
+[root@master01 ~]# echo "master01" > /etc/hostname
+
+[root@node1 ~]# hostnamectl --static set-hostname node1
+[root@node1 ~]# echo "node1" > /etc/hostname
+
+[root@node2 ~]# hostnamectl --static set-hostname node2
+[root@node2 ~]# echo "node2" > /etc/hostname
+```
+
 -----
 
 #### 添加主机名解析
@@ -42,6 +54,12 @@ os version: centos 7
 #  iptables -F &&  iptables -X &&  iptables -F -t nat &&  iptables -X -t nat
 #  iptables -P FORWARD ACCEPT
 ```
+***验证防火墙是否关闭***
+```bash
+# firewall-cmd --state
+not running
+```
+
 ----
 #### 关闭 swap 分区
 ```
