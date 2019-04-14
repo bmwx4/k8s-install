@@ -46,9 +46,9 @@ $ diff heapster.yaml.orig heapster.yaml
 27c27
 <         - --source=kubernetes:https://kubernetes.default
 ---
->         - --source=kubernetes:https://kubernetes.default?kubeletHttps=true&kubeletPort=10250
+>         - --source=kubernetes:https://kubernetes.default?kubeletHttps=true&kubeletPort=10250&insecure=true
 ```
-+ 由于 kubelet 只在 10250 监听 https 请求，故添加相关参数；
++ 由于 kubelet 只在 10250 监听 https 请求，如果由于证书报错，也把insecure=true参数添加上， 故添加相关参数；
 
 ``` bash
 $ cp influxdb.yaml{,.orig}
@@ -114,6 +114,13 @@ heapster-8f9559ddc-9dh4k                1/1     Running   0          3m33s
 monitoring-grafana-56b668bccf-hlzz4     1/1     Running   0          3m34s
 monitoring-influxdb-5c5bf4949d-jlw5j    1/1     Running   0          3m34s
 ```
+
+## cAdvisor
+由于新版本的k8s移除了 cAdvisor,需要在宿主上运行，或者使用daemonset方式运行，这里我们采用宿主上独立运行：
+```bash
+# cadvisor -housekeeping_interval 10s -port 4194 &
+```
+
 检查 kubernets dashboard 界面，可以正确显示各 Nodes、Pods 的 CPU、内存、负载等统计数据和图表：
 ![dashboard-heapster](/images/dashboard-heapster.png)
 
