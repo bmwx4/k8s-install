@@ -85,6 +85,7 @@ sysctl -p /etc/sysctl.d/kubernetes.conf
 cat > /etc/docker/daemon.json << EOF
 {
 "graph":"/var/lib/docker",
+"exec-opts": ["native.cgroupdriver=cgroupfs"],
 "registry-mirrors": ["https://xx.mirror.aliyuncs.com"],
 "live-restore": true
 }
@@ -97,5 +98,6 @@ docker pull registry.access.redhat.com/rhel7/pod-infrastructure
 docer  pull httpd
 docker pull nginx
 docekr pull busybox
-
 ```
+
+**PS:** exec-opts 这个配置要和kubelet里的cgroup driver配置相同

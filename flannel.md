@@ -20,7 +20,7 @@ flannel 将分配的 Pod 网段信息写入 /run/flannel/docker 文件，docker 
 ```
 
 #### 创建 flannel 证书和私钥
-flannel 从 etcd 集群存取网段分配信息，而 etcd 集群启用了双向 x509 证书认证，所以需要为 flanneld 生成证书和私钥。
+flannel 从 etcd 集群存取网段分配信息，而 etcd 集群启用了双向 x509 证书认证，所以需要为 flanneld 生成证书和私钥,也可以复用etcd的客户端证书和key.
 ***创建证书签名请求：***
 ```
 cat > flanneld-csr.json <<EOF
@@ -45,7 +45,7 @@ EOF
 ```
 ***PS:***
 ```
-该证书只会被 kubectl 当做 client 证书使用，所以 hosts 字段为空；
+该证书只会被 flannel 当做 client 证书使用，所以 hosts 字段为空；
 ```
 ***生成证书和私钥：***
 ```

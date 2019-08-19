@@ -3,7 +3,7 @@
 
 将下载的 kubernetes-server-linux-amd64.tar.gz 解压后，再解压其中的 kubernetes-src.tar.gz 文件。
 
-coredns 对应的目录是：`cluster/addons/dns`。
+coredns 对应的目录是：`cluster/addons/dns`。也可从coredns项目中获取: https://github.com/coredns/deployment.git
 
 ```bash
 $ pwd

@@ -153,3 +153,7 @@ ETCDCTL_API=3 etcdctl \
 https://192.168.10.232:2379 is healthy: successfully committed proposal: took = 1.230902ms
 ```
 输出均为 healthy 时表示集群服务正常。
+
+#### etcd 线上服务器推荐机型
+因为高性能的磁盘是保证etcd性能和稳定性的关键因素。 但是该如何进行硬件配置选择呢？官方给了一份参考:
+[Hardware recommendations](https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/hardware.md)
