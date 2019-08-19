@@ -41,7 +41,7 @@ Kubernetes 最初源于谷歌内部的 Borg，提供了面向应用的容器集�
     1. ~~[06-1.ha]~~
     1. [06-2.api-server](kube-apiserver.md)
     1. [06-3.controller-manager集群](kube-controller-manager.md)
-    1. [06-4.scheduler集群](kube-scheduler.md)
+    1. [06-4.scheduler集群](kube-scheduler.md)		
 1. [07.部署worker节点]()
     1. [07-1.docker](docker.md)
     1. [07-2.kubelet](kubelet.md)
