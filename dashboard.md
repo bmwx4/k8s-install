@@ -1,9 +1,9 @@
-#
+# dashboard
 
 
 #### 修改配置
 
-修改dashboard-controller.yaml配置文件，更新dashboard镜像地址，如果网络允许的情况下，可以不修改，默认的是 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3 ：
+修改 dashboard-controller.yaml配置文件，更新dashboard镜像地址，如果网络允许的情况下，可以不修改，默认的是 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3 ：
 ```bash
 $ pwd
 /opt/k8s/kubernetes/cluster/addons/dashboard
@@ -107,6 +107,7 @@ kubectl config set-credentials dashboard_user \
   --token=${DASHBOARD_LOGIN_TOKEN} \
   --kubeconfig=dashboard.kubeconfig
 ```
+
 # 设置上下文参数
 ```bash
 kubectl config set-context default \
@@ -133,3 +134,21 @@ kubernetes-dashboard is running at https://192.168.10.232:6443/api/v1/namespaces
 ```
 ![dashboard](/images/apiserver-dashboard-login.png)
 访问受限，参考：[A.浏览器访问kube-apiserver安全端口](kube-apiserver-sec-port.md)
+
+---------
+
+#### 常见错误
+##### kubernetes dashboard 无法登录提示Not enough data to create auth info structure.
+```
+通过配置文件登录K8S控制台时报如下错误：
+"Not enough data to create auth info structure.""
+```
+![dashboard-error1](/images/dashboard-error1.png)
+
+解决办法：执行以下命令生成可用令牌：
+```bash
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+```
+将生成的token复制到kubeconfig 文件中，如下图所示：
+![dashboard-error1](/images/dashboard-error2.png)
+使用新的配置文件即可登录成功。
