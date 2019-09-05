@@ -147,7 +147,20 @@ kubernetes-dashboard is running at https://192.168.10.232:6443/api/v1/namespaces
 
 解决办法：执行以下命令生成可用令牌：
 ```bash
-kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | awk '{print $1}'| grep kubernetes-dashboard-token)            
+Name:         kubernetes-dashboard-token-2s6xg
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: kubernetes-dashboard
+             kubernetes.io/service-account.uid: c864305a-cf7f-11e9-9766-005056fbe45f
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token:      xxxxxxxxxxxxxxxxxxx
 ```
 将生成的token复制到kubeconfig 文件中，如下图所示：
 ![dashboard-error1](/images/dashboard-error2.png)
