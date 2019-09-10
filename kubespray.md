@@ -13,6 +13,8 @@ ansible client 是我的一台虚拟机，因为环境怎么倒腾都不怕，�
 ```
 # git clone https://github.com/kubernetes-incubator/kubespray.git
 # git checkout v2.8.3
+或者
+# git checkout v2.11.0
 ```
 
 #### 安装 KubeSpray 所依赖的包,都包括哪些呢:
@@ -29,13 +31,14 @@ hvac
 # cd kubespray
 # pip install -r requirements.txt
 ```
+如果使用 v2.11.0 的版本则不需要修改，直接安装依赖即可.
 
 #### 主机配置
 生成自己的配置，然后修改:
 ```bash
 # cp -ar inventory/sample inventory/k8s/
 ```
-修改inventory/k8s/ 目录下的 host.ini文件 :
+修改inventory/k8s/ 目录下的 host.ini文件,v2.11.0 的版本叫 inventory.ini :
 ```
 # cat inventory/k8s/
 group_vars/ hosts.ini
@@ -84,42 +87,208 @@ node1
 ./inventory/k8s/group_vars/k8s-cluster/k8s-cluster.yml
 ./roles/download/defaults/main.yml
 ```
-你也可以整体修改一下:
+修改后的效果, 也可以按照文后的国内镜像源进行相应的替换:
 ```
 # grep -r 'azk8s.cn' ./
 ./inventory/k8s/group_vars/k8s-cluster/k8s-cluster.yml:kube_image_repo: "gcr.azk8s.cn/google-containers"
-./roles/download/defaults/main.yml:kube_image_repo: "gcr.azk8s.cn/google-containers"
-./roles/download/defaults/main.yml:etcd_image_repo: "quay.azk8s.cn/coreos/etcd"
-./roles/download/defaults/main.yml:flannel_image_repo: "quay.azk8s.cn/coreos/flannel"
-./roles/download/defaults/main.yml:flannel_cni_image_repo: "quay.azk8s.cn/coreos/flannel-cni"
-./roles/download/defaults/main.yml:calicoctl_image_repo: "quay.azk8s.cn/calico/ctl"
-./roles/download/defaults/main.yml:calico_node_image_repo: "quay.azk8s.cn/calico/node"
-./roles/download/defaults/main.yml:calico_cni_image_repo: "quay.azk8s.cn/calico/cni"
-./roles/download/defaults/main.yml:calico_policy_image_repo: "quay.azk8s.cn/calico/kube-controllers"
-./roles/download/defaults/main.yml:calico_rr_image_repo: "quay.azk8s.cn/calico/routereflector"
-./roles/download/defaults/main.yml:pod_infra_image_repo: "gcr.azk8s.cn/google_containers/pause-{{ image_arch }}"
-./roles/download/defaults/main.yml:netcheck_agent_image_repo: "quay.azk8s.cn/l23network/k8s-netchecker-agent"
-./roles/download/defaults/main.yml:netcheck_server_image_repo: "quay.azk8s.cn/l23network/k8s-netchecker-server"
-./roles/download/defaults/main.yml:kubedns_image_repo: "gcr.azk8s.cn/google_containers/k8s-dns-kube-dns-{{ image_arch }}"
-./roles/download/defaults/main.yml:dnsmasq_nanny_image_repo: "gcr.azk8s.cn/google_containers/k8s-dns-dnsmasq-nanny-{{ image_arch }}"
-./roles/download/defaults/main.yml:dnsmasq_sidecar_image_repo: "gcr.azk8s.cn/google_containers/k8s-dns-sidecar-{{ image_arch }}"
-./roles/download/defaults/main.yml:dnsmasqautoscaler_image_repo: "gcr.azk8s.cn/google_containers/cluster-proportional-autoscaler-{{ image_arch }}"
-./roles/download/defaults/main.yml:dnsautoscaler_image_repo: "gcr.azk8s.cn/google_containers/cluster-proportional-autoscaler-{{ image_arch }}"
-./roles/download/defaults/main.yml:tiller_image_repo: "gcr.azk8s.cn/kubernetes-helm/tiller"
-./roles/download/defaults/main.yml:registry_proxy_image_repo: "gcr.azk8s.cn/google_containers/kube-registry-proxy"
-./roles/download/defaults/main.yml:metrics_server_image_repo: "k8s.gcr.azk8s.cn/metrics-server-amd64"
-./roles/download/defaults/main.yml:local_volume_provisioner_image_repo: "quay.azk8s.cn/external_storage/local-volume-provisioner"
-./roles/download/defaults/main.yml:cephfs_provisioner_image_repo: "quay.azk8s.cn/external_storage/cephfs-provisioner"
-./roles/download/defaults/main.yml:ingress_nginx_controller_image_repo: "quay.azk8s.cn/kubernetes-ingress-controller/nginx-ingress-controller"
-./roles/download/defaults/main.yml:cert_manager_controller_image_repo: "quay.azk8s.cn/jetstack/cert-manager-controller"
-./roles/download/defaults/main.yml:addon_resizer_image_repo: "k8s.gcr.azk8s.cn/addon-resizer"
-./roles/download/defaults/main.yml:dashboard_image_repo: "gcr.azk8s.cn/google_containers/kubernetes-dashboard-{{ image_arch }}"
+< kube_image_repo: "gcr.io/google-containers"
+---
+> kube_image_repo: "gcr.azk8s.cn/google-containers"
+217c217
+< etcd_image_repo: "quay.io/coreos/etcd"
+---
+> etcd_image_repo: "quay.azk8s.cn/coreos/etcd"
+219c219
+< flannel_image_repo: "quay.io/coreos/flannel"
+---
+> flannel_image_repo: "quay.azk8s.cn/coreos/flannel"
+221c221
+< flannel_cni_image_repo: "quay.io/coreos/flannel-cni"
+---
+> flannel_cni_image_repo: "quay.azk8s.cn/coreos/flannel-cni"
+223c223
+< calico_node_image_repo: "docker.io/calico/node"
+---
+> calico_node_image_repo: "dockerhub.azk8s.cn/calico/node"
+225c225
+< calico_cni_image_repo: "docker.io/calico/cni"
+---
+> calico_cni_image_repo: "dockerhub.azk8s.cn/calico/cni"
+227c227
+< calico_policy_image_repo: "docker.io/calico/kube-controllers"
+---
+> calico_policy_image_repo: "dockerhub.azk8s.cn/calico/kube-controllers"
+229c229
+< calico_rr_image_repo: "docker.io/calico/routereflector"
+---
+> calico_rr_image_repo: "dockerhub.azk8s.cn/calico/routereflector"
+231c231
+< calico_typha_image_repo: "docker.io/calico/typha"
+---
+> calico_typha_image_repo: "dockerhub.azk8s.cn/calico/typha"
+233c233
+< pod_infra_image_repo: "gcr.io/google_containers/pause-{{ image_arch }}"
+---
+> pod_infra_image_repo: "gcr.azk8s.cn/google_containers/pause-{{ image_arch }}"
+235c235
+< install_socat_image_repo: "docker.io/xueshanf/install-socat"
+---
+> install_socat_image_repo: "dockerhub.azk8s.cn/xueshanf/install-socat"
+238c238
+< netcheck_agent_image_repo: "quay.io/l23network/k8s-netchecker-agent"
+---
+> netcheck_agent_image_repo: "quay.azk8s.cn/l23network/k8s-netchecker-agent"
+240c240
+< netcheck_server_image_repo: "quay.io/l23network/k8s-netchecker-server"
+---
+> netcheck_server_image_repo: "quay.azk8s.cn/l23network/k8s-netchecker-server"
+242c242
+< weave_kube_image_repo: "docker.io/weaveworks/weave-kube"
+---
+> weave_kube_image_repo: "dockerhub.azk8s.cn/weaveworks/weave-kube"
+244c244
+< weave_npc_image_repo: "docker.io/weaveworks/weave-npc"
+---
+> weave_npc_image_repo: "dockerhub.azk8s.cn/weaveworks/weave-npc"
+246c246
+< contiv_image_repo: "docker.io/contiv/netplugin"
+---
+> contiv_image_repo: "dockerhub.azk8s.cn/contiv/netplugin"
+248c248
+< contiv_init_image_repo: "docker.io/contiv/netplugin-init"
+---
+> contiv_init_image_repo: "dockerhub.azk8s.cn/contiv/netplugin-init"
+250c250
+< contiv_auth_proxy_image_repo: "docker.io/contiv/auth_proxy"
+---
+> contiv_auth_proxy_image_repo: "dockerhub.azk8s.cn/contiv/auth_proxy"
+252c252
+< contiv_etcd_init_image_repo: "docker.io/ferest/etcd-initer"
+---
+> contiv_etcd_init_image_repo: "dockerhub.azk8s.cn/ferest/etcd-initer"
+254c254
+< contiv_ovs_image_repo: "docker.io/contiv/ovs"
+---
+> contiv_ovs_image_repo: "dockerhub.azk8s.cn/contiv/ovs"
+256c256
+< cilium_image_repo: "docker.io/cilium/cilium"
+---
+> cilium_image_repo: "dockerhub.azk8s.cn/cilium/cilium"
+258c258
+< cilium_init_image_repo: "docker.io/cilium/cilium-init"
+---
+> cilium_init_image_repo: "dockerhub.azk8s.cn/cilium/cilium-init"
+260c260
+< cilium_operator_image_repo: "docker.io/cilium/operator"
+---
+> cilium_operator_image_repo: "dockerhub.azk8s.cn/cilium/operator"
+262,264c262,264
+< kube_ovn_db_image_repo: "docker.io/kubeovn/kube-ovn-db"
+< kube_ovn_node_image_repo: "docker.io/kubeovn/kube-ovn-node"
+< kube_ovn_cni_image_repo: "docker.io/kubeovn/kube-ovn-cni"
+---
+> kube_ovn_db_image_repo: "dockerhub.azk8s.cn/kubeovn/kube-ovn-db"
+> kube_ovn_node_image_repo: "dockerhub.azk8s.cn/kubeovn/kube-ovn-node"
+> kube_ovn_cni_image_repo: "dockerhub.azk8s.cn/kubeovn/kube-ovn-cni"
+270c270
+< kube_router_image_repo: "docker.io/cloudnativelabs/kube-router"
+---
+> kube_router_image_repo: "dockerhub.azk8s.cn/cloudnativelabs/kube-router"
+272c272
+< multus_image_repo: "docker.io/nfvpe/multus"
+---
+> multus_image_repo: "dockerhub.azk8s.cn/nfvpe/multus"
+274c274
+< nginx_image_repo: docker.io/nginx
+---
+> nginx_image_repo: dockerhub.azk8s.cn/library/nginx
+277c277
+< haproxy_image_repo: docker.io/haproxy
+---
+> haproxy_image_repo: dockerhub.azk8s.cn/haproxy
+281c281
+< coredns_image_repo: "docker.io/coredns/coredns"
+---
+> coredns_image_repo: "dockerhub.azk8s.cn/coredns/coredns"
+285c285
+< nodelocaldns_image_repo: "k8s.gcr.io/k8s-dns-node-cache"
+---
+> nodelocaldns_image_repo: "gcr.azk8s.cn/google_containers/k8s-dns-node-cache"
+289c289
+< dnsautoscaler_image_repo: "k8s.gcr.io/cluster-proportional-autoscaler-{{ image_arch }}"
+---
+> dnsautoscaler_image_repo: "gcr.azk8s.cn/google_containers/cluster-proportional-autoscaler-{{ image_arch }}"
+291c291
+< test_image_repo: docker.io/busybox
+---
+> test_image_repo: dockerhub.azk8s.cn/busybox
+293c293
+< busybox_image_repo: docker.io/busybox
+---
+> busybox_image_repo: dockerhub.azk8s.cn/busybox
+296c296
+< helm_image_repo: "docker.io/lachlanevenson/k8s-helm"
+---
+> helm_image_repo: "dockerhub.azk8s.cn/lachlanevenson/k8s-helm"
+298c298
+< tiller_image_repo: "gcr.io/kubernetes-helm/tiller"
+---
+> tiller_image_repo: "gcr.azk8s.cn/kubernetes-helm/tiller"
+301c301
+< registry_image_repo: "docker.io/registry"
+---
+> registry_image_repo: "dockerhub.azk8s.cn/registry"
+303c303
+< registry_proxy_image_repo: "gcr.io/google_containers/kube-registry-proxy"
+---
+> registry_proxy_image_repo: "gcr.azk8s.cn/google_containers/kube-registry-proxy"
+306c306
+< metrics_server_image_repo: "gcr.io/google_containers/metrics-server-amd64"
+---
+> metrics_server_image_repo: "gcr.azk8s.cn/google_containers/metrics-server-amd64"
+308c308
+< local_volume_provisioner_image_repo: "quay.io/external_storage/local-volume-provisioner"
+---
+> local_volume_provisioner_image_repo: "quay.azk8s.cn/external_storage/local-volume-provisioner"
+310c310
+< cephfs_provisioner_image_repo: "quay.io/external_storage/cephfs-provisioner"
+---
+> cephfs_provisioner_image_repo: "quay.azk8s.cn/external_storage/cephfs-provisioner"
+312c312
+< rbd_provisioner_image_repo: "quay.io/external_storage/rbd-provisioner"
+---
+> rbd_provisioner_image_repo: "quay.azk8s.cn/external_storage/rbd-provisioner"
+314c314
+< local_path_provisioner_image_repo: "docker.io/rancher/local-path-provisioner"
+---
+> local_path_provisioner_image_repo: "dockerhub.azk8s.cn/rancher/local-path-provisioner"
+316c316
+< ingress_nginx_controller_image_repo: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller"
+---
+> ingress_nginx_controller_image_repo: "quay.azk8s.cn/kubernetes-ingress-controller/nginx-ingress-controller"
+319c319
+< cert_manager_controller_image_repo: "quay.io/jetstack/cert-manager-controller"
+---
+> cert_manager_controller_image_repo: "quay.azk8s.cn/jetstack/cert-manager-controller"
+322c322
+< addon_resizer_image_repo: "k8s.gcr.io/addon-resizer"
+---
+> addon_resizer_image_repo: "gcr.azk8s.cn/google_containers/addon-resizer"
+325c325
+< dashboard_image_repo: "gcr.io/google_containers/kubernetes-dashboard-{{ image_arch }}"
+---
+> dashboard_image_repo: "gcr.azk8s.cn/google_containers/kubernetes-dashboard-{{ image_arch }}"
+```
+#### 集群创建
+```
+ansible-playbook -i inventory/k8s/inventory.ini cluster.yml -b -vvv
 ```
 
 #### 增加节点
+添加新节点信息到 inventory/k8s/hosts.ini 文件中，
 ```bash
 # cd kubespray
-# ansible-playbook -i inventory/inventory.cfg cluster.yml -b -v --private-key=~/.ssh/id_rsa --limit node3
+# ansible-playbook -i inventory/k8s/inventory.ini scale.yml -b -v --private-key=~/.ssh/id_rsa --limit node2
 ```
 
 #### 遇到问题卸载

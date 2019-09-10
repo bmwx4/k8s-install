@@ -1,5 +1,14 @@
-# Summary
+# K8S 部署方式集合
 
+## KubeSpray 部署
+* [KubeSpray 部署](kubespray.md)
+--------------------
+## 二进制快速部署
+* [二进制快速部署](binary-install.md)
+
+-----------
+
+## 一步步安装
 * [Introduction](README.md)
 1. [00.组件版本和配置策略](version.md)
 1. [01.系统初始化和全局变量](os-init.md)
@@ -9,16 +18,16 @@
 1. [05.部署flannel网络](flannel.md)
 1. [06.部署master节点](master.md)
     1. ~~[06-1.ha]~~
-    1. [06-2.api-server](kube-apiserver.md)
-    1. [06-3.controller-manager集群](kube-controller-manager.md)
-    1. [06-4.scheduler集群](kube-scheduler.md)
+    1. [06-2.api-server部署](kube-apiserver.md)
+    1. [06-3.controller-manager部署](kube-controller-manager.md)
+    1. [06-4.scheduler部署](kube-scheduler.md)
 1. [07.部署worker节点]()
     1. [07-1.docker](docker.md)
     1. [07-2.kubelet](kubelet.md)
     1. [07-3.kubelet-without-bootstrap](kubelet-without-bootstrap.md)
     1. [07-4.kube-proxy](kube-proxy.md)
 1. [08.验证集群功能](verify.md)
-1. [09.部署集群插件](deploy-plugins.md)
+1. [09.部署集群附加组件](deploy-plugins.md)
     1. [09-1.coredns](coredns.md)
     1. [09-2.dashboard](dashboard.md)
     1. [09-3.heapster](heapster.md)
